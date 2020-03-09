@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- x = x the X coordinate of the pixel from which to getthe pixel in the 
+	default RGB color model and sRGBcolor space -->
+<!-- y = y the Y coordinate of the pixel from which to getthe pixel in the 
+	default RGB color model and sRGBcolor space -->
+<!-- RGB = an integer pixel in the default RGB color model anddefault sRGB 
+	colorspace -->
+<!-- Read only the first x and y ，Read multiple RGB -->
+<!-- inputTap的x和y的值低于0的情况下会抛出中止异常 -->
+<ADB>
+	<runSteps value="1-7">
+		<list move="1" tapX="790" tapY="475">
+			<getRGB x="830" y="480">
+				<RGB>-16739884</RGB>
+				<RGB>-6579813</RGB>
+				<RGB>-4504576</RGB>
+			</getRGB>
+		</list>
+		<list move="2" tapX="50" tapY="50">
+			<getRGB x="830" y="480">
+				<RGB>-15659250</RGB>
+				<RGB>-15395564</RGB>
+			</getRGB>
+
+		</list>
+		<list move="3" tapX="0" tapY="0">
+			<getRGB x="485" y="450">
+				<RGB>-3158060</RGB>
+				<RGB>-2170910</RGB>
+			</getRGB>
+			<getRGB x="460" y="60">
+				<RGB>-1</RGB>
+			</getRGB>
+		</list>
+	</runSteps>
+
+	<runSteps value="1-8">
+		<list move="1" tapX="790" tapY="475">
+			<getRGB x="830" y="480">
+				<RGB>-16739884</RGB>
+				<RGB>-6579813</RGB>
+				<RGB>-4504576</RGB>
+			</getRGB>
+		</list>
+		<list move="500" tapX="50" tapY="50">
+			<getRGB x="830" y="480">
+				<RGB>-15659250</RGB>
+				<RGB>-15395564</RGB>
+			</getRGB>
+
+		</list>
+		<list move="3" tapX="0" tapY="0">
+			<getRGB x="485" y="450">
+				<RGB>-3158060</RGB>
+				<RGB>-2170910</RGB>
+			</getRGB>
+			<getRGB x="460" y="60">
+				<RGB>-1</RGB>
+			</getRGB>
+		</list>
+	</runSteps>
+	
+</ADB>
