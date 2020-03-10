@@ -48,7 +48,7 @@ Connectable Device For_2-->emulator-5556
 >重启服务后仍然没有连接，你可以尝试重启模拟器或者拔插手机数据线  
 
 如果连接成功，先使用虚拟机将画面定格到xml指定的画面上，如下图所示  
-![a.png](http://tiebapic.baidu.com/forum/w%3D580%3B/sign=a4dbbcf31bf431adbcd243317b0dadaf/3b292df5e0fe9925aa5d303123a85edf8db17179.jpg)
+![a.png](http://tiebapic.baidu.com/forum/w%3D580%3B/sign=a4dbbcf31bf431adbcd243317b0dadaf/3b292df5e0fe9925aa5d303123a85edf8db17179.jpg)  
 然后在控制台输入`1`选择`1-Standard Run`，这时控制台会出现运行模式选择  
 同时，`$=>>`变成`#=>`，输入模式数字再回车就可自动执行  
 ```
