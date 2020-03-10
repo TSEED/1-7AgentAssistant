@@ -65,7 +65,7 @@ public class RunCmdADB {
 		System.out.println("=->  " + run);
 
 		Process p = Runtime.getRuntime().exec(run);
-		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(),"UTF-8"));
 
 		String r = br.readLine();
 		ArrayList<String> output = new ArrayList<String>();

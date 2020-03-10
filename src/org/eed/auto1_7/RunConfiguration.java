@@ -53,17 +53,6 @@ public class RunConfiguration {
 	public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>>> getADBXMLBeanMaps()
 			throws SAXException, IOException, ParserConfigurationException {
 
-//		HashMap<String, String> runSteps;
-//		String value ="";
-//		String move ="";
-//		String tapX ="";
-//		String tapY ="";
-//		String x ="";
-//		String y ="";
-//		String rgb ="";
-
-//		System.out.println("=============================================================================");
-//		System.out.println("value" + "\t" + "move" + "\t" + "tapX" + "\t" + "tapY" + "\t" + "x" + "\t" + "y" + "\t" + "rgb");
 		ArrayList<ADBXMLBean> xml = ReadXML();
 		LinkedHashMap<String, ArrayList<String>> rgbList = new LinkedHashMap<String, ArrayList<String>>();
 		LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> listList = new LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>>();
@@ -138,9 +127,9 @@ public class RunConfiguration {
 	public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {
 		ArrayList<ADBXMLBean> x = RunConfiguration.ReadXML();
 		x.forEach((s)->{
-			if(s.getValue().equals("1-7")&&s.getMove().equals("3")||s.getMove().equals("2")) {
+//			if(s.getValue().equals("1-7")&&s.getMove().equals("3")||s.getMove().equals("2")) {
 				System.out.println(s.getValue()+"\t"+s.getMove()+"\t"+s.getTapAxis(ADBAxis.X_axis)+"\t"+s.getTapAxis(ADBAxis.Y_axis)+"\t"+s.getAxis(ADBAxis.X_axis)+"\t"+s.getAxis(ADBAxis.Y_axis)+"\t"+s.getRGB());
-			}
+//			}
 		});
 	}
 

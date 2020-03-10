@@ -81,7 +81,6 @@ public class MainAuto {
 						System.out.println("Connectable Device For_" + i + "-->" + string);
 					}
 				} catch (IOException e) {
-					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				}
 
@@ -91,7 +90,6 @@ public class MainAuto {
 					System.out.println(">>>>Restart Complete!<<<<");
 					Thread.sleep(500);
 				} catch (IOException | InterruptedException e) {
-					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				}
 
@@ -100,11 +98,12 @@ public class MainAuto {
 				System.out.print("\n ### LAN ADB Connect ### \n"
 						+ "#####Connect Menu#####\n"
 						+ "1_Get LAN IP\n"
-						+ "2_LAN Connect Device"
-						+ "3_Disconnect Device"
-						+ "4_Go Back");
-				for (boolean c=true ; c == true;) {
+						+ "2_LAN Connect Device\n"
+						+ "3_Disconnect Device\n"
+						+ "4_Go Back\n");
+				a:for (boolean c=true ; c == true;) {
 					iten = -1;
+					System.out.print("\n#&~>");
 					iten = scan.nextInt();
 					switch (iten) {
 					case 1:
@@ -112,19 +111,41 @@ public class MainAuto {
 						c = false;
 						break;
 					case 2:
-						LocalAreaNetADBMod.ConnectDevice("");
-						break;
+						while (true) {
+							String ipl ;
+							System.out.print("\n@#->");
+							ipl = scan.next();
+							if(ipl!=null&&ipl!="") {
+								System.out.println("->Connect:"+ipl);
+								LocalAreaNetADBMod.ConnectDevice(ipl);
+								break a;
+							}
+						}
+
 					case 3:
-						LocalAreaNetADBMod.DisconnectDevice("");
-						c = false;
-						break;
+						while (true) {
+							String ipl ;
+							System.out.print("\n@&->");
+							ipl = scan.next();
+							if (ipl != null && ipl != "") {
+								System.out.println("->Disconnect:"+ipl);
+								LocalAreaNetADBMod.DisconnectDevice(ipl);
+								break a;
+							}
+						}
 					case 4:
-						c = false;
-						break;
+						break a;
 					default:
 						try {
+							
 							throw new Throwable("##Invalid Input!## -->>无效输入!!重新输入!");
 						} catch (Throwable e) {
+							e.printStackTrace();
+						}
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							// TODO 自动生成的 catch 块
 							e.printStackTrace();
 						}
 						break;

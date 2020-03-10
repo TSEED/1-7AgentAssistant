@@ -21,7 +21,6 @@
 				<RGB>-15659250</RGB>
 				<RGB>-15395564</RGB>
 			</getRGB>
-
 		</list>
 		<list move="3" tapX="0" tapY="0">
 			<getRGB x="485" y="450">
@@ -33,31 +32,4 @@
 			</getRGB>
 		</list>
 	</runSteps>
-
-	<runSteps value="1-8">
-		<list move="1" tapX="790" tapY="475">
-			<getRGB x="830" y="480">
-				<RGB>-16739884</RGB>
-				<RGB>-6579813</RGB>
-				<RGB>-4504576</RGB>
-			</getRGB>
-		</list>
-		<list move="500" tapX="50" tapY="50">
-			<getRGB x="830" y="480">
-				<RGB>-15659250</RGB>
-				<RGB>-15395564</RGB>
-			</getRGB>
-
-		</list>
-		<list move="3" tapX="0" tapY="0">
-			<getRGB x="485" y="450">
-				<RGB>-3158060</RGB>
-				<RGB>-2170910</RGB>
-			</getRGB>
-			<getRGB x="460" y="60">
-				<RGB>-1</RGB>
-			</getRGB>
-		</list>
-	</runSteps>
-	
 </ADB>

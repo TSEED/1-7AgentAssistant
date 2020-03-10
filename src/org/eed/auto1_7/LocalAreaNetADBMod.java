@@ -20,8 +20,7 @@ public class LocalAreaNetADBMod {
 			InetAddress ip4 = Inet4Address.getLocalHost();
 			if (ips < 20)
 				ips = ips + 20;
-			Process process = Runtime.getRuntime()
-					.exec("cmd cmd /c start cmd /c for /L %i IN (1,1," + ips + ") DO ping -w 2 -n 1 192.168.0.%i ");// 俄罗斯套娃出一个cmd窗口来遍历当前ip地址
+			Process process = Runtime.getRuntime().exec("cmd cmd /c start cmd /c for /L %i IN (1,1," + ips + ") DO ping -w 2 -n 1 192.168.0.%i ");// 俄罗斯套娃出一个cmd窗口来遍历当前ip地址
 			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			br.readLine();
 			br.readLine();// 这两个readLine目的是堵塞线程，没有任何实质输出
@@ -51,7 +50,6 @@ public class LocalAreaNetADBMod {
 						}
 					}
 				}
-
 			}
 
 			System.out.println(b);
@@ -59,11 +57,9 @@ public class LocalAreaNetADBMod {
 			for (Map.Entry<String, String> entry :ip.entrySet()) {
 				System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 			}
-			
 			br.close();
 			process.destroy();
 			
-
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -78,15 +74,41 @@ public class LocalAreaNetADBMod {
 	 * 连接设备
 	 * @param string
 	 */
-	public static void ConnectDevice(String string) {
-		
+	public static void ConnectDevice(String ip) {
+		try {
+			Process process = Runtime.getRuntime().exec("lib/adb connect "+ip);
+			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(),"UTF-8"));
+			String r = br.readLine();
+			while (r!=null) {
+				System.out.println(r);
+				r = br.readLine();
+			}
+			br.close();
+			process.destroy();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 断开设备
 	 * @param string
 	 */
-	public static void DisconnectDevice(String string) {
-		
+	public static void DisconnectDevice(String ip) {
+		try {
+			Process process = Runtime.getRuntime().exec("lib/adb disconnect "+ip);
+			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(),"UTF-8"));
+			String r = br.readLine();
+			while (r!=null) {
+				System.out.println(r);
+				r = br.readLine();
+			}
+			br.close();
+			process.destroy();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
 	}
 
 }

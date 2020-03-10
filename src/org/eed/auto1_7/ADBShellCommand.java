@@ -41,7 +41,15 @@ public class ADBShellCommand {
 		for (String s : a) {
 			if (s != null) {
 				if (s.indexOf(" device ") != -1) {
-					deviceName.add(s.substring(0, s.indexOf("device ")));
+					String ss = s.substring(0, s.indexOf("device "));
+					ss=ss.trim();
+
+					if(ss.contains(":")) {
+						
+						ss = ss.substring(0,ss.indexOf(":"));
+						System.out.println(ss);
+					}
+					deviceName.add(ss);
 				}
 				// System.out.println(s.indexOf("device "));
 				// System.out.println(s.substring(0, s.indexOf("device ")));

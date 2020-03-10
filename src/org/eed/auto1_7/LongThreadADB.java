@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -205,11 +206,13 @@ public class LongThreadADB extends Thread {
 
 					fis = new FileInputStream(toPath + toFile);
 					image = ImageIO.read(fis);
-					if (image != null) {
 
+					if (image != null) {
 						boolean b = false ;
+						
 						for (ADBXMLBean a : m) {
 							if (a.getValue().equals("1-7")) {
+								
 								if (image.getRGB(Integer.parseInt(a.getAxis(ADBAxis.X_axis)), Integer.parseInt(a.getAxis(ADBAxis.Y_axis))) == Integer.parseInt(a.getRGB())) {
 
 									if (a.getTapAxis(ADBAxis.X_axis).equals("0") || a.getTapAxis(ADBAxis.Y_axis).equals("0")) {
@@ -230,7 +233,7 @@ public class LongThreadADB extends Thread {
 									}
 									
 								} else {
-									sleep(5000);
+									sleep(3000);
 									b = false;
 								}
 
