@@ -150,7 +150,7 @@ public class LongThreadADB extends Thread {
 						image.flush();
 					} else {
 						System.out.println("-!!!-");
-//						continue;
+//						continue; 
 					}
 
 				} else {

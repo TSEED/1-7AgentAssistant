@@ -71,7 +71,7 @@ public class LocalAreaNetADBMod {
 		return ip;
 	}
 	/**
-	 * 连接设备
+	 * 连接设备 
 	 * @param string
 	 */
 	public static void ConnectDevice(String ip) {

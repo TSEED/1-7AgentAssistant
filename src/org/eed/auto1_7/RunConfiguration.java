@@ -127,7 +127,7 @@ public class RunConfiguration {
 	public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {
 		ArrayList<ADBXMLBean> x = RunConfiguration.ReadXML();
 		x.forEach((s)->{
-//			if(s.getValue().equals("1-7")&&s.getMove().equals("3")||s.getMove().equals("2")) {
+//			if(s.getValue().equals("1-7")&&s.getMove().equals("3")||s.getMove().equals("2")) { 
 				System.out.println(s.getValue()+"\t"+s.getMove()+"\t"+s.getTapAxis(ADBAxis.X_axis)+"\t"+s.getTapAxis(ADBAxis.Y_axis)+"\t"+s.getAxis(ADBAxis.X_axis)+"\t"+s.getAxis(ADBAxis.Y_axis)+"\t"+s.getRGB());
 //			}
 		});

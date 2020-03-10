@@ -126,7 +126,7 @@ public class MainAuto {
 						while (true) {
 							String ipl ;
 							System.out.print("\n@&->");
-							ipl = scan.next();
+							ipl = scan.next(); 
 							if (ipl != null && ipl != "") {
 								System.out.println("->Disconnect:"+ipl);
 								LocalAreaNetADBMod.DisconnectDevice(ipl);

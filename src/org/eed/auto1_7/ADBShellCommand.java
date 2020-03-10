@@ -28,7 +28,7 @@ public class ADBShellCommand {
 		RunCmdADB.runCMD("adb kill-server");
 		RunCmdADB.runCMD("adb start-server");
 	}
-
+ 
 	/**
 	 * ªÒ»°Device√˚
 	 * 

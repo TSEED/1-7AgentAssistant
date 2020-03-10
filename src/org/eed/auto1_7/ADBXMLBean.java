@@ -80,7 +80,7 @@ public class ADBXMLBean {
 	public String getGetRGB() {
 		return getRGB;
 	}
-
+ 
 	public void setGetRGB(String getRGB) {
 		this.getRGB = getRGB;
 	}
