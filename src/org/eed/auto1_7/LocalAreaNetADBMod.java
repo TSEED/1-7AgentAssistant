@@ -23,7 +23,7 @@ public class LocalAreaNetADBMod {
 			Process process = Runtime.getRuntime().exec("cmd cmd /c start cmd /c for /L %i IN (1,1," + ips + ") DO ping -w 2 -n 1 192.168.0.%i ");// 俄罗斯套娃出一个cmd窗口来遍历当前ip地址
 			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			br.readLine();
-			br.readLine();// 这两个readLine目的是堵塞线程，没有任何实质输出
+			br.readLine();// 这两个readLine目的是堵塞线程，没有任何实质输出 
 
 			process.destroy();
 			br.close();// b我不new，从我做起

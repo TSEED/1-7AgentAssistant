@@ -17,7 +17,7 @@ public class ADBXMLBean {
 	private String RGB;
 
 	public ADBXMLBean(String value, String move, String tapX, String tapY, String x, String y, String RGB) {
-		// TODO 自动生成的构造函数存根
+		// TODO 自动生成的构造函数存根 
 		this.value = value;
 		this.move = move;
 		this.tapX = tapX;

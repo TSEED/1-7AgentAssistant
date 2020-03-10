@@ -15,7 +15,7 @@ public class MainAuto {
 				+ "----------------------------------------------\n" 
 				+ "1-Standard Run\n" 
 				+ "2-Query Device\n"
-				+ "3-Restart ADB Service\n" 
+				+ "3-Restart ADB Service\n"
 				+ "4-LAN ADB Connect\n" 
 				+ "5-Exit Procedure\n"
 				+ "----------------------------------------------\n");
