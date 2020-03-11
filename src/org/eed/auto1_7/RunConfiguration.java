@@ -24,27 +24,31 @@ public class RunConfiguration {
 		SAXParserFactory.newInstance().newSAXParser().parse("config/1-7RunConfig.xml", adbxml);
 		return xml;
 	}
+	
+	public static String ReadJava() throws SAXException, IOException, ParserConfigurationException {
+		StringBuffer j = new StringBuffer();
+		ADBXML adbxml = new ADBXML(j);
+		SAXParserFactory.newInstance().newSAXParser().parse("config/1-7RunConfig.xml", adbxml);
+		return j.toString();
+	}
 
-	static int i = 1;
-
+	private static int i = 1;
 	private static String Value = "";
 	private static String Move = "";
 	private static String TapX = "";
 	private static String TapY = "";
 	private static String X = "";
 	private static String Y = "";
-
 	private static String Value1 = "";
 	private static String Move1 = "";
 	private static String TapX1 = "";
 	private static String TapY1 = "";
-
 	private static String Value2 = "";
-
 	/**
 	 * "*" + Value + "@" + Move + "#" + TapX + "$" + TapY + "%" + X + "&" + Y <p/>
 	 * "*" + Value + "@" + Move + "#" + TapX + "$" + TapY<p/>
 	 * "*" + Value<p/>
+	 * @deprecated
 	 * @return
 	 * @throws SAXException
 	 * @throws IOException
@@ -78,21 +82,10 @@ public class RunConfiguration {
 				System.out.println("----------------------");
 			}
 			rgbList.get("*" + Value + "@" + Move + "#" + TapX + "$" + TapY + "%" + X + "&" + Y).add(xmll.getRGB());
-//			System.out.println(Value+"-\t"+Move+"-\t"+TapX+"-\t"+TapY+"-\t"+X+"-\t"+Y+"-\t"+xmll.getRGB());
-//			System.out.println(
-//			xmll.getValue()+"\t"+
-//			xmll.getMove()+"\t"+
-//			xmll.getTapAxis(ADBAxis.X_axis)+"\t"+
-//			xmll.getTapAxis(ADBAxis.Y_axis)+"\t"+
-//			xmll.getAxis(ADBAxis.X_axis)+"\t"+
-//			xmll.getAxis(ADBAxis.Y_axis)+"\t"+
-//			xmll.getRGB()
-//			);
-//			System.out.println(i);
+
 		});
 		System.out.println("=============================================================================");
 		rgbList.forEach((k, v) -> {
-//			System.out.println(k+"="+v);
 			if (k.substring(k.indexOf("*"), k.indexOf("@")).equals(Value1)
 					&& k.substring(k.indexOf("@"), k.indexOf("#")).equals(Move1)
 					&& k.substring(k.indexOf("#"), k.indexOf("$")).equals(TapX1)
@@ -123,31 +116,39 @@ public class RunConfiguration {
 		return runStepsList;
 
 	}
-	
-	public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {
-		ArrayList<ADBXMLBean> x = RunConfiguration.ReadXML();
-		x.forEach((s)->{
-//			if(s.getValue().equals("1-7")&&s.getMove().equals("3")||s.getMove().equals("2")) { 
-				System.out.println(s.getValue()+"\t"+s.getMove()+"\t"+s.getTapAxis(ADBAxis.X_axis)+"\t"+s.getTapAxis(ADBAxis.Y_axis)+"\t"+s.getAxis(ADBAxis.X_axis)+"\t"+s.getAxis(ADBAxis.Y_axis)+"\t"+s.getRGB());
-//			}
-		});
-	}
 
+	public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {
+		ArrayList<ADBXMLBean> x = ReadXML();
+		x.forEach((s)->{
+			System.out.println(s.getValue()+"\t"+s.getMove()+"\t"+ s.getTapAxis(ADBAxis.X_axis)+"\t"+ s.getTapAxis(ADBAxis.Y_axis)+"\t"+ s.getAxis(ADBAxis.X_axis)+"\t"+ s.getAxis(ADBAxis.Y_axis)+"\t"+ s.getRGB());
+		});
+		String y = ReadJava();
+		System.out.println("\n\n"+y);
+	}
 }
 
 class ADBXML extends DefaultHandler {
 
-	private String value;
-	private String move, tapX, tapY;
-	private String x, y;
-	private ArrayList<ADBXMLBean> xml;
-	private String string;
+	private String value ;
+	private String move, tapX, tapY ;
+	private String x, y ;
+	private ArrayList<ADBXMLBean> xml = new ArrayList<ADBXMLBean>();
+	private String string ;
+	private String qName ;
+	private StringBuffer javar = new StringBuffer();
 //	private String RGB,runSteps,list,getRGB;
 
 	public ADBXML(ArrayList<ADBXMLBean> xml) {
 		this.xml = xml;
 		if (xml == null) {
 			throw new NullPointerException("你必须先构建一个ADBXMLBean！！！！");
+		}
+	}
+	
+	public ADBXML(StringBuffer javar) {
+		this.javar = javar;
+		if(javar==null) {
+			throw new NullPointerException("你必须先构建一个StringBuffer！！！！");
 		}
 	}
 
@@ -172,19 +173,25 @@ class ADBXML extends DefaultHandler {
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		if ("runSteps".equals(qName)) {
+		
+		switch(qName) {
+		case "runSteps":
 			value = attributes.getValue("value");
-		} else if ("list".equals(qName)) {
+			this.qName = qName;
+			break;
+		case "list":
 			move = attributes.getValue("move");
 			tapX = attributes.getValue("tapX");
 			tapY = attributes.getValue("tapY");
-		} else if ("getRGB".equals(qName)) {
+			break;
+		case "getRGB":
 			x = attributes.getValue("x");
 			y = attributes.getValue("y");
-		} else if ("RGB".equals(qName)) {
-
+			break;
+		case "JavaMiniConf":
+			this.qName = qName;
+			break;
 		}
-
 	}
 
 	@Override
@@ -195,11 +202,12 @@ class ADBXML extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		string = new String(ch, start, length).trim();
-		if (string != null && !"".equals(string)) {
+		if (string != null && !"".equals(string) && qName.equals("runSteps")) {
 			xml.add(new ADBXMLBean(value, move, tapX, tapY, x, y, string));
 			// System.out.println(string);
+		} else if (string != null && !"".equals(string) && qName.equals("JavaMiniConf")) {
+			javar.append(string+"");
 		}
-
 	}
 
 }
