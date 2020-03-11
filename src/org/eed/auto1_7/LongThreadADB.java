@@ -143,7 +143,7 @@ public class LongThreadADB extends Thread {
 											bo = true;
 										}
 									} else {
-										sleep(3000);
+										sleep(1000);
 										bo = false;
 									}
 								}
