@@ -1,6 +1,6 @@
 # 1-7代理助手
 ![](https://img.shields.io/badge/language-Java-orange.svg)
-![](https://img.shields.io/badge/version-v0.0.3--Alpha-green.svg)  
+![](https://img.shields.io/badge/version-v0.0.4--Alpha-green.svg)  
 它的诞生来自无聊的我练手作品
 为了避免把大把时间浪费这辣鸡游戏的录像带
 所以，这个小东西应运而生
@@ -113,7 +113,13 @@ emulator-5554-Click-Thread[Thread-3,5,main]->790 475
 ### Alpha.0.0.3
 **2020/3/11 2:44**
 微微完善了菜单`4-LAN ADB Connect`的内容  
-可以尝试无线连接手机
+可以尝试无线连接手机  
+
+### Alpha.0.0.4
+**2020/3/13 16:09**
+更新了对比模式，值為`3`，使用汉明距离计算图片相似度  
+必须在xml加载指定图片和截图对比  
+
 ## 关于
 >[EED的QQ](https://qm.qq.com/cgi-bin/qm/qr?k=j7M2JipoAMLmWtawY5waUeMeYgu9o1Gn)  
 
