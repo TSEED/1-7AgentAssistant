@@ -1,6 +1,6 @@
 # 1-7代理助手
 ![](https://img.shields.io/badge/language-Java-orange.svg)
-![](https://img.shields.io/badge/version-v0.0.4--Alpha-green.svg)  
+![](https://img.shields.io/badge/version-v0.0.4--Alpha-green.svg)   
 它的诞生来自无聊的我练手作品
 为了避免把大把时间浪费这辣鸡游戏的录像带
 所以，这个小东西应运而生
