@@ -11,12 +11,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eed.auto1_7.bean.ADBAxis;
+import org.eed.auto1_7.bean.ADBXMLBean;
+import org.eed.auto1_7.bean.IMGXMLBean;
 import org.xml.sax.SAXException;
 
 /**
@@ -26,7 +28,7 @@ import org.xml.sax.SAXException;
  *
  */
 enum LongThreadAdbModel {
-	MODEL1, MODEL2
+	MODEL1, MODEL2, MODEL3
 }
 
 /**
@@ -49,7 +51,6 @@ public class LongThreadADB extends Thread {
 	private ByteArrayInputStream bais;
 	private FileInputStream fis;
 	private LongThreadAdbModel mode;
-
 	/**
 	 * <font size="5" color="red">模式1</font>
 	 * 
@@ -63,7 +64,7 @@ public class LongThreadADB extends Thread {
 		this.deviceName = deviceName;
 		return this;
 	}
-
+	
 	/**
 	 * <font size="5" color="red">模式2</font>
 	 * 
@@ -74,6 +75,20 @@ public class LongThreadADB extends Thread {
 		mode = LongThreadAdbModel.MODEL2;
 		this.deviceName = deviceName;
 		this.toPath = toPath;
+		this.toFile = toFile;
+		return this;
+	}
+	
+	/**
+	 * <font size="5" color="red">模式3</font>
+	 * 
+	 * @param deviceName
+	 * @param toFile
+	 * @return
+	 */
+	public Thread monitorScreen(String deviceName, String toFile) {
+		mode = LongThreadAdbModel.MODEL3;
+		this.deviceName = deviceName;
 		this.toFile = toFile;
 		return this;
 	}
@@ -90,6 +105,11 @@ public class LongThreadADB extends Thread {
 			break;
 		case MODEL2:
 			runAdbFor2();
+			break;
+		case MODEL3:
+			runAdbFor3();
+			break;
+		default:
 			break;
 		}
 
@@ -133,7 +153,6 @@ public class LongThreadADB extends Thread {
 											try {
 												throw new Throwable("##STOP RUNNING!## -->>循环跳出条件中止");
 											} catch (Throwable e) {
-												// TODO 自动生成的 catch 块
 												e.printStackTrace();
 											}
 											break run;
@@ -171,23 +190,15 @@ public class LongThreadADB extends Thread {
 				}
 			}
 		} catch (SAXException | IOException | ParserConfigurationException e1) {
-			// TODO 自动生成的 catch 块
 			e1.printStackTrace();
 		}
-
-		try {
-			throw new Throwable("##STOP RUNNING!## -->>循环跳出条件中止");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	/**
 	 * 运行循环方法2
 	 */
 	private void runAdbFor2() {
-		System.out.println("MODE1\t-->\t" + deviceName + " " + toPath + toFile);
+		System.out.println("MODE2\t-->\t" + deviceName + " " + toPath + toFile);
 		ArrayList<ADBXMLBean> m;
 		try {
 			m = RunConfiguration.ReadXML();
@@ -237,16 +248,83 @@ public class LongThreadADB extends Thread {
 					}
 					sleep(2000);
 				} catch (IOException e) {
-					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				} catch (InterruptedException e) {
-					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				}
 			}
 		} catch (SAXException | IOException | ParserConfigurationException e1) {
-			// TODO 自动生成的 catch 块
 			e1.printStackTrace();
 		}
 	}
+
+	private void runAdbFor3() {
+		System.out.println("MODE3\t-->\t" + deviceName + " " + toFile);
+		HashMap<IMGXMLBean, String> Hashimg = new HashMap<IMGXMLBean, String>();
+		ImageHash ih = new ImageHash();
+		ToolsADB tool = new ToolsADB();
+		
+		
+		try {
+			
+			ArrayList<IMGXMLBean> m;
+			m = RunConfiguration.ReadImage();
+			
+			for(IMGXMLBean b : m) {
+				Hashimg.put(b, ih.getHash(new FileInputStream(b.getFileLocat())));
+			}
+			
+			run:while (true) {
+				try {
+					runtime = Runtime.getRuntime();
+					Process p = runtime.exec("cmd /c lib\\adb -s " + deviceName + " exec-out screencap -p > " + toFile);
+//					Process p = runtime.exec("cmd /c lib\\adb -s emulator-5556 exec-out screencap -p > data/emulator-5556.png");
+					BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+					br.readLine();
+					p.destroy();
+					br.close();
+					
+					fis = new FileInputStream(toFile);
+//					fis = new FileInputStream("data/emulator-5556.png");
+					String getH = ih.getHash(fis);
+					boolean b = false;
+					for(Entry<IMGXMLBean, String> imgs: Hashimg.entrySet()) {
+						int ol= tool.distance(imgs.getValue(), getH);
+						System.out.println(this.toString()+"\t"+"DH:\t"+ol);
+						if(ol < Integer.parseInt(imgs.getKey().getResiduals())) {
+							if(imgs.getKey().getTapAxis(ADBAxis.X_axis).equals("0")||imgs.getKey().getTapAxis(ADBAxis.Y_axis).equals("0")) {
+								try {
+									throw new Throwable("##STOP RUNNING!## -->>循环跳出条件中止");
+								} catch (Throwable e) {
+									e.printStackTrace();
+								}
+								break run;
+							}else {
+								runtime.exec("lib/adb -s " + deviceName + " shell input tap "+ imgs.getKey().getTapAxis(ADBAxis.X_axis) + " " + imgs.getKey().getTapAxis(ADBAxis.Y_axis)+ " ");
+								System.out.println(deviceName + "-Click-" + this.toString() + "->"+ imgs.getKey().getTapAxis(ADBAxis.X_axis) + " " + imgs.getKey().getTapAxis(ADBAxis.Y_axis));
+								b=true;
+							}
+						}else {
+							b=false;
+							sleep(4000);
+						}
+					}
+					if(b)
+					System.out.println("--?--");
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SAXException | IOException | ParserConfigurationException e1) {
+			e1.printStackTrace();
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+
+
+	}
+
 }

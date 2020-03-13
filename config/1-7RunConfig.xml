@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- x = x the X coordinate of the pixel from which to getthe pixel in the 
-	default RGB color model and sRGBcolor space -->
-<!-- y = y the Y coordinate of the pixel from which to getthe pixel in the 
-	default RGB color model and sRGBcolor space -->
-<!-- RGB = an integer pixel in the default RGB color model anddefault sRGB 
-	colorspace -->
-<!-- Read only the first x and y ，Read multiple RGB -->
-<!-- inputTap的x和y的值低于0的情况下会抛出中止异常 -->
+<!-- 目前设置是默认数值设置，支持美服和官服 -->
+<!-- RGB值是由BufferedImage.getRGB方法获得的-->
+<!-- inputTap的x和y的值为“0”的情况下会抛出中止异常 -->
 <ADB>
 	<runSteps value="1-7">
 		<list move="1" tapX="790" tapY="475">
@@ -32,4 +27,16 @@
 			</getRGB>
 		</list>
 	</runSteps>
+	
+	<files value="1-7">
+		<file move="1" tapX="790" tapY="475" residuals="5" >
+			config/55.png
+		</file>
+		<file move="2" tapX="790" tapY="475" residuals="5" >
+			config/44.png
+		</file>
+		<file move="3" tapX="50" tapY="50" residuals="10">
+			config/33.png
+		</file>
+	</files>
 </ADB>

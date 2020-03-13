@@ -37,7 +37,7 @@ public class MainAuto {
 						iten = -1;
 						System.out.print("#=>");
 						iten = scan.nextInt();
-						if (iten == 1 || iten == 2) {
+						if (iten == 1 || iten == 2 || iten == 3) {
 							break;
 						} else {
 							try {
@@ -50,7 +50,6 @@ public class MainAuto {
 					}
 
 					System.out.println("\nMode " + iten);
-
 					for (String s : ADBShellCommand.displayAdbDevice()) {
 						Matcher m = p.matcher(s);
 						s = m.replaceAll("");
@@ -63,6 +62,8 @@ public class MainAuto {
 						case 2:
 							ms.monitorScreen(s, "data/", s + ".png");
 							break;
+						case 3:
+							ms.monitorScreen(s, "data/" + s + ".png");
 						}
 						ms.start();
 						Thread.sleep(500);
@@ -145,13 +146,12 @@ public class MainAuto {
 						try {
 							Thread.sleep(500);
 						} catch (InterruptedException e) {
-							// TODO 自动生成的 catch 块
 							e.printStackTrace();
 						}
 						break;
 					}
 				}
-			} else if (iten == 4) {
+			} else if (iten == 5) {
 				System.out.println("--Exit Procedure--");
 				break;
 			} else {

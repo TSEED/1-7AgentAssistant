@@ -1,5 +1,8 @@
 package org.eed.auto1_7;
  
+import org.eed.auto1_7.bean.ADBAxis;
+import org.eed.auto1_7.bean.ADBXMLBean;
+import org.eed.auto1_7.bean.IMGXMLBean;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -20,16 +23,18 @@ public class RunConfiguration {
 
 	public static ArrayList<ADBXMLBean> ReadXML() throws SAXException, IOException, ParserConfigurationException {
 		ArrayList<ADBXMLBean> xml = new ArrayList<ADBXMLBean>();
-		ADBXML adbxml = new ADBXML(xml);
+		ADBXML adbxml = new ADBXML();
+		adbxml.setRGBConfig(xml);
 		SAXParserFactory.newInstance().newSAXParser().parse("config/1-7RunConfig.xml", adbxml);
 		return xml;
 	}
 	
-	public static String ReadJava() throws SAXException, IOException, ParserConfigurationException {
-		StringBuffer j = new StringBuffer();
-		ADBXML adbxml = new ADBXML(j);
+	public static ArrayList<IMGXMLBean> ReadImage() throws SAXException, IOException, ParserConfigurationException {
+		ArrayList<IMGXMLBean> img = new ArrayList<IMGXMLBean>();
+		ADBXML adbxml = new ADBXML();
+		adbxml.setIMGConfig(img);
 		SAXParserFactory.newInstance().newSAXParser().parse("config/1-7RunConfig.xml", adbxml);
-		return j.toString();
+		return img;
 	}
 
 	private static int i = 1;
@@ -122,8 +127,12 @@ public class RunConfiguration {
 		x.forEach((s)->{
 			System.out.println(s.getValue()+"\t"+s.getMove()+"\t"+ s.getTapAxis(ADBAxis.X_axis)+"\t"+ s.getTapAxis(ADBAxis.Y_axis)+"\t"+ s.getAxis(ADBAxis.X_axis)+"\t"+ s.getAxis(ADBAxis.Y_axis)+"\t"+ s.getRGB());
 		});
-		String y = ReadJava();
-		System.out.println("\n\n"+y);
+		System.out.println("\n\n");
+		
+		ArrayList<IMGXMLBean> y = ReadImage();
+		y.forEach((z)->{
+			System.out.println(z.getValuef()+"\t"+z.getMovef()+"\t"+z.getTapAxis(ADBAxis.X_axis)+"\t"+z.getTapAxis(ADBAxis.Y_axis)+"\t"+ z.getResiduals() +"\t"+ z.getFileLocat());
+		});
 	}
 }
 
@@ -133,28 +142,36 @@ class ADBXML extends DefaultHandler {
 	private String move, tapX, tapY ;
 	private String x, y ;
 	private ArrayList<ADBXMLBean> xml = new ArrayList<ADBXMLBean>();
-	private String string ;
-	private String qName ;
-	private StringBuffer javar = new StringBuffer();
-//	private String RGB,runSteps,list,getRGB;
-
-	public ADBXML(ArrayList<ADBXMLBean> xml) {
-		this.xml = xml;
-		if (xml == null) {
-			throw new NullPointerException("你必须先构建一个ADBXMLBean！！！！");
-		}
-	}
 	
-	public ADBXML(StringBuffer javar) {
-		this.javar = javar;
-		if(javar==null) {
-			throw new NullPointerException("你必须先构建一个StringBuffer！！！！");
+	private String valuef,movef,tapXf,tapYf,residuals;
+	private ArrayList<IMGXMLBean> img = new ArrayList<IMGXMLBean>();
+	
+	private String string ;
+	
+	private String qName ;
+	
+	final public static int ADBXMLBean =1;
+	final public static int IMGXMLBean =2;
+
+//	private String RGB,runSteps,list,getRGB;
+	
+	public void setRGBConfig(ArrayList<ADBXMLBean> b){
+		if (b == null) {
+			throw new NullPointerException("你必须先构建一个ADBXMLBean！！！！");
+		} else {
+			xml = b;
 		}
+		
+	}
+	public void setIMGConfig(ArrayList<IMGXMLBean> b){
+		if (b == null) {
+			throw new NullPointerException("你必须先构建一个ADBXMLBean！！！！");
+		} else {
+			img = b;
+		}
+		
 	}
 
-	public ArrayList<ADBXMLBean> getADBConfig() {
-		return xml;
-	}
 
 	// 遍历xml文件开始标签
 	@Override
@@ -191,7 +208,20 @@ class ADBXML extends DefaultHandler {
 		case "JavaMiniConf":
 			this.qName = qName;
 			break;
+			
+		case "files":
+			valuef = attributes.getValue("value");
+			this.qName = qName;
+			break;
+		case "file":
+			movef = attributes.getValue("move");
+			tapXf = attributes.getValue("tapX");
+			tapYf = attributes.getValue("tapY");
+			residuals= attributes.getValue("residuals");
+			break;
 		}
+		
+
 	}
 
 	@Override
@@ -202,11 +232,14 @@ class ADBXML extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		string = new String(ch, start, length).trim();
-		if (string != null && !"".equals(string) && qName.equals("runSteps")) {
-			xml.add(new ADBXMLBean(value, move, tapX, tapY, x, y, string));
-			// System.out.println(string);
-		} else if (string != null && !"".equals(string) && qName.equals("JavaMiniConf")) {
-			javar.append(string+"");
+		
+		if(string != null && !"".equals(string)) {
+			if (qName.equals("runSteps")) {
+				xml.add(new ADBXMLBean(value, move, tapX, tapY, x, y, string));
+				// System.out.println(string);
+			} else if (qName.equals("files")) {
+				img.add(new IMGXMLBean(valuef, movef, tapXf, tapYf, residuals, string));
+			}
 		}
 	}
 

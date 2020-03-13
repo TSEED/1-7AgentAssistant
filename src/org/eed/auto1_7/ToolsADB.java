@@ -56,6 +56,22 @@ public class ToolsADB {
         return result;
 	}
 	
+	/**
+	 * ººÃ÷¾àÀë¼ÆËã
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+    public int distance(String s1, String s2) {
+        int counter = 0;
+        for (int k = 0; k < s1.length(); k++) {
+            if (s1.charAt(k) != s2.charAt(k)) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+	
 }
 
 /**
@@ -91,4 +107,6 @@ class TwoTuple<A, B> {
 	public String toString() {
 		return "(" + first + ", " + second + ")";
 	}
+	
+
 }
